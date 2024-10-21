@@ -1,0 +1,89 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-28T073117Z
+  name: policy-exc-req-j3210n6288c-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+    - autogen-privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - autogen-run-as-non-root
+    - run-as-non-root
+  - policyName: disallow-capabilities
+    ruleNames:
+    - adding-capabilities
+    - autogen-adding-capabilities
+  - policyName: restrict-automount-sa-token
+    ruleNames:
+    - validate-automountServiceAccountToken
+    - autogen-validate-automountServiceAccountToken
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+    - autogen-restricted-volumes
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - autogen-privileged-containers
+    - privileged-containers
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - autogen-host-namespaces
+    - host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - autogen-host-path
+    - host-path
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - autogen-check-seccomp-strict
+    - check-seccomp-strict
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - autogen-adding-capabilities-strict
+    - require-drop-all
+    - adding-capabilities-strict
+    - autogen-require-drop-all
+  match:
+    any:
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-7db6d8ff4d
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kindnet
+        - kube-proxy
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kube-proxy-lprb6
+        - coredns-7db6d8ff4d-gcsvv
+        - coredns-7db6d8ff4d-wlmxp
+        - kube-controller-manager-cluster-test-control-plane
+        - kube-apiserver-cluster-test-control-plane
+        - etcd-cluster-test-control-plane
+        - kube-scheduler-cluster-test-control-plane
+        - kindnet-f8tj8
+        namespaces:
+        - kube-system
