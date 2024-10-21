@@ -1,0 +1,52 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-28T064218Z
+  name: policy-exc-req-o2957s2150s-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: restrict-escalation-verbs-roles
+    ruleNames:
+    - escalate
+    - autogen-escalate
+  - policyName: restrict-automount-sa-token
+    ruleNames:
+    - validate-automountServiceAccountToken
+    - autogen-validate-automountServiceAccountToken
+  - policyName: restrict-wildcard-resources
+    ruleNames:
+    - wildcard-resources
+    - autogen-wildcard-resources
+  match:
+    any:
+    - resources:
+        kinds:
+        - Role
+        names:
+        - kyverno-operator-installer
+        - kyverno-operator
+        namespaces:
+        - nirmata-system
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kyverno-operator-f986b56f9-r2d7d
+        namespaces:
+        - nirmata-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - kyverno-operator-f986b56f9
+        namespaces:
+        - nirmata-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - kyverno-operator
+        namespaces:
+        - nirmata-system
