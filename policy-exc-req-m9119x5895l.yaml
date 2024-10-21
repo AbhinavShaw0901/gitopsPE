@@ -1,0 +1,89 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-28T071057Z
+  name: policy-exc-req-m9119x5895l-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - autogen-privilege-escalation
+    - privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - autogen-run-as-non-root
+    - run-as-non-root
+  - policyName: disallow-capabilities
+    ruleNames:
+    - adding-capabilities
+    - autogen-adding-capabilities
+  - policyName: restrict-automount-sa-token
+    ruleNames:
+    - autogen-validate-automountServiceAccountToken
+    - validate-automountServiceAccountToken
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - autogen-privileged-containers
+    - privileged-containers
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+    - autogen-restricted-volumes
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - autogen-host-namespaces
+    - host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+    - autogen-host-path
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+    - autogen-adding-capabilities-strict
+    - autogen-require-drop-all
+    - adding-capabilities-strict
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+    - autogen-check-seccomp-strict
+  match:
+    any:
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - coredns-7db6d8ff4d-wlmxp
+        - kube-controller-manager-cluster-test-control-plane
+        - kube-apiserver-cluster-test-control-plane
+        - kube-scheduler-cluster-test-control-plane
+        - etcd-cluster-test-control-plane
+        - kindnet-f8tj8
+        - kube-proxy-lprb6
+        - coredns-7db6d8ff4d-gcsvv
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kube-proxy
+        - kindnet
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-7db6d8ff4d
+        namespaces:
+        - kube-system
