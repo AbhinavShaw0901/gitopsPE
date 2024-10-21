@@ -1,0 +1,75 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-28T065251Z
+  name: policy-exc-req-d7921e5076t-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: restrict-escalation-verbs-roles
+    ruleNames:
+    - escalate
+  - policyName: restrict-automount-sa-token
+    ruleNames:
+    - validate-automountServiceAccountToken
+    - autogen-validate-automountServiceAccountToken
+    - autogen-cronjob-validate-automountServiceAccountToken
+  - policyName: restrict-wildcard-resources
+    ruleNames:
+    - wildcard-resources
+  match:
+    any:
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kyverno-admission-controller-649d45dff9-l69gh
+        - kyverno-admission-controller-649d45dff9-zxp48
+        - kyverno-reports-controller-5f964695f5-hd6pg
+        - kyverno-admission-controller-649d45dff9-xcw9f
+        - kyverno-background-controller-7c798fb9f7-dstnh
+        - kyverno-cleanup-admission-reports-28824140-bfrcv
+        - kyverno-cleanup-controller-65676dfccb-tq5bg
+        - kyverno-cleanup-cluster-admission-reports-28824140-jg6zm
+        namespaces:
+        - kyverno
+    - resources:
+        kinds:
+        - Job
+        names:
+        - kyverno-cleanup-admission-reports-28824140
+        - kyverno-cleanup-cluster-admission-reports-28824140
+        namespaces:
+        - kyverno
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - kyverno-cleanup-controller-65676dfccb
+        - kyverno-reports-controller-5f964695f5
+        - kyverno-background-controller-7c798fb9f7
+        - kyverno-admission-controller-649d45dff9
+        namespaces:
+        - kyverno
+    - resources:
+        kinds:
+        - Role
+        names:
+        - kyverno:cleanup-controller
+        - kyverno:admission-controller
+        - kyverno:background-controller
+        - kyverno-installer
+        - kyverno:reports-controller
+        namespaces:
+        - kyverno
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - kyverno-cleanup-controller
+        - kyverno-admission-controller
+        - kyverno-background-controller
+        - kyverno-reports-controller
+        namespaces:
+        - kyverno
